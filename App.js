@@ -43,11 +43,12 @@ class GeoTracker extends Component {
           style={styles.map}
           mapType='satellite'
           showsUserLocation={true}
-          followUserLocation={true}
+          followsUserLocation={true}
+          showsCompass={true}
         >
           <MapView.Polyline
             coordinates={this.state.routeCoordinates}
-            strokeWidth={5}
+            strokeWidth={1}
             strokeColor='red'
           />
         </MapView>
