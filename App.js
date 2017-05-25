@@ -8,7 +8,6 @@ import {
   Dimensions,
 } from 'react-native';
 import MapView from 'react-native-maps';
-import pick from 'lodash/pick';
 
 const { width, height } = Dimensions.get('window');
 
@@ -27,7 +26,8 @@ class GeoTracker extends Component {
     )
     this.watchID = navigator.geolocation.watchPosition((position) => {
       const { routeCoordinates } = this.state
-      const positionLatLngs = pick(position.coords, ['latitude', 'longitude'])
+      const positionLatLngs = {'latitude': position.coords.latitude, 'longitude': position.coords.longitude}
+      console.log(positionLatLngs);
       this.setState({ routeCoordinates: routeCoordinates.concat(positionLatLngs) })
     });
   }
@@ -44,12 +44,13 @@ class GeoTracker extends Component {
           mapType='satellite'
           showsUserLocation={true}
           followUserLocation={true}
-          overlays={[{
-            coordinates: this.state.routeCoordinates,
-            strokeColor: '#19B5FE',
-            lineWidth: 10,
-          }]}
-        />
+        >
+          <MapView.Polyline
+            coordinates={this.state.routeCoordinates}
+            strokeWidth={5}
+            strokeColor='red'
+          />
+        </MapView>
       </View>
     );
   }
